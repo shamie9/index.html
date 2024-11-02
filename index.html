@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.js"></script>
+</head>
+<body>
+    <h1>Daftar</h1>
+    <form id="registration-form">
+        <input type="text" name="name" placeholder="Nama" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <button type="submit">Daftar</button>
+    </form>
+    <script>
+        const supabaseUrl = 'YOUR_SUPABASE_URL';
+        const supabaseAnonKey = 'YOUR_ANON_KEY';
+
+        const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        document.getElementById('registration-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const name = event.target.name.value;
+            const email = event.target.email.value;
+
+            const { data, error } = await supabase
+                .from('registrations')
+                .insert([{ name: name, email: email }]);
+
+            if (error) {
+                console.error('Error:', error);
+            } else {
+                console.log('Pendaftaran berjaya:', data);
+                alert('Pendaftaran berjaya!');
+            }
+        });
+    </script>
+</body>
+</html>
